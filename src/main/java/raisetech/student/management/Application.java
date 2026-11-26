@@ -17,6 +17,8 @@ public class Application {
 
 	@Autowired
 	private StudentRepository repository;
+	@Autowired
+	private StudentCourseRepository studentCourseRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -26,6 +28,12 @@ public class Application {
 	@GetMapping("/students")
 	public List<Student> getStudents() {
 		return repository.findAll();
+	}
+
+	// 受講生コースの一覧表示
+	@GetMapping("/students-courses")
+	public List<StudentCourse> getStudentCourses() {
+		return studentCourseRepository.findAll();
 	}
 
 	// 名前で学生を検索
