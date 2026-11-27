@@ -39,4 +39,8 @@ public interface StudentRepository {
   // 今回の課題：30代の受講生を検索
   @Select("SELECT * FROM students WHERE age >= 30 AND age < 40")
   List<Student> search();
+
+  // 受講生管理システム用：全受講生を検索
+  @Select("SELECT * FROM students")
+  List<Student> findAllStudents();
 }

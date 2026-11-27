@@ -3,8 +3,10 @@ package raisetech.student.management.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import raisetech.student.management.controller.converter.StudentConverter;
 import raisetech.student.management.data.Student;
 import raisetech.student.management.data.StudentCourse;
+import raisetech.student.management.domain.StudentDetail;
 import raisetech.student.management.repository.StudentCourseRepository;
 import raisetech.student.management.repository.StudentRepository;
 
@@ -13,14 +15,17 @@ public class StudentService {
 
   private final StudentRepository studentRepository;
   private final StudentCourseRepository studentCourseRepository;
+  private final StudentConverter converter;
 
   @Autowired
   public StudentService(
       StudentRepository studentRepository,
-      StudentCourseRepository studentCourseRepository
+      StudentCourseRepository studentCourseRepository,
+      StudentConverter converter
   ) {
     this.studentRepository = studentRepository;
     this.studentCourseRepository = studentCourseRepository;
+    this.converter = converter;
   }
 
   // 30代の受講生を検索
@@ -31,6 +36,14 @@ public class StudentService {
   // Javaコースの受講生コース情報を検索
   public List<StudentCourse> searchStudentCourseList() {
     return studentCourseRepository.searchStudentCourse();
+  }
+
+  // 受講生とコース情報をまとめて検索
+  public List<StudentDetail> searchStudentListWithCourse() {
+    List<Student> students = studentRepository.findAllStudents();
+    List<StudentCourse> studentsCourse = studentCourseRepository.findAll();
+
+    return converter.convertStudentDetails(students, studentsCourse);
   }
 
   // 以前のCRUD課題：全受講生
