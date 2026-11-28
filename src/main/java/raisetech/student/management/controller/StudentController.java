@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.student.management.data.Student;
 import raisetech.student.management.data.StudentCourse;
+import raisetech.student.management.domain.StudentDetail;
 import raisetech.student.management.service.StudentService;
 
 @RestController
@@ -50,6 +51,12 @@ public class StudentController {
   @GetMapping("/student")
   public Student getStudent(@RequestParam String name) {
     return service.searchByName(name);
+  }
+
+  // 受講生とコース情報をまとめて検索
+  @GetMapping("/studentDetails")
+  public List<StudentDetail> getStudentDetails() {
+    return service.searchStudentListWithCourse();
   }
 
   // 以前のCRUD課題：登録
